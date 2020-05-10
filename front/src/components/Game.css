@@ -1,0 +1,18 @@
+.game-info {
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.game-board {
+    background-color: #020202;
+    padding: 20px;
+}
+
+#you {
+    color: #2ba84a;
+}
+
+#opponent {
+    color: #38aecc;
+}

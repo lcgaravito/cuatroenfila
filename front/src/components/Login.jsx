@@ -9,7 +9,7 @@ export default function Login() {
 
   const sendForm = (ev) => {
     ev.preventDefault();
-    if (password !== confirmPassword) {
+    if (!logIn && password !== confirmPassword) {
       setPasswordsNotEquals(true);
       return;
     }
@@ -33,7 +33,7 @@ export default function Login() {
   };
 
   return (
-    <div className="login">
+    <div className="login col-md-6 offset-md-3">
       <h2 className="text-center">{logIn ? "Log in" : "Create Account"}</h2>
       <form onSubmit={(ev) => sendForm(ev)}>
         <div className="form-group">
