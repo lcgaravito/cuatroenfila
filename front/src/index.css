@@ -2,8 +2,11 @@
 body {
     /* Font */
     font-family: "Work Sans", sans-serif;
+    background-color: #2d4654;
+    color: #2ba84a;
 }
 
 h1 h2 h3 h4 h5 h6 {
     font-family: "Space Mono", monospace;
+    color: white;
 }
