@@ -5,6 +5,10 @@
 }
 
 .game-board {
+    border-radius: 15px 15px 15px 15px;
+    -moz-border-radius: 15px 15px 15px 15px;
+    -webkit-border-radius: 15px 15px 15px 15px;
+    border: 0px solid #020202;
     background-color: #020202;
     padding: 20px;
 }
