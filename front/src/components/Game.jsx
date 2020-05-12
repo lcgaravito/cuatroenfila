@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Game.css";
 
 const grid = [
@@ -12,6 +12,7 @@ const grid = [
 
 export default function Game() {
   const [board, setBoard] = useState(grid);
+  const webSocket = useRef(null);
 
   const sendMotion = (i, j) => {
     for (let index = board.length - 1; index >= 0; index--) {
@@ -20,12 +21,12 @@ export default function Game() {
         const boardCopy = [...board];
         boardCopy[index][j] = 1;
         setBoard(boardCopy);
+        webSocket.current.send(j);
         return;
       }
     }
   };
 
-  /*
   const receiveMotion = (j) => {
     for (let index = board.length - 1; index >= 0; index--) {
       const element = board[index][j];
@@ -36,25 +37,18 @@ export default function Game() {
         return;
       }
     }
-  };*/
-
-  const setupWS = () => {
-    const wss = new WebSocket("ws://localhost:3001");
-    wss.onopen = () => {
-      console.log("WS client connected");
-
-      wss.onmessage = (msg) => {
-        console.log("WS got message: ", msg.data);
-        // receiveMotion(msg.data);
-      };
-    };
   };
 
   useEffect(() => {
-    setupWS();
-    return () => {
-      console.log("Bye!");
+    webSocket.current = new WebSocket("ws://cuatroenfila.herokuapp.com/");
+    webSocket.current.onopen = () => {
+      console.log("WS client connected");
+      webSocket.current.onmessage = (msg) => {
+        console.log("WS got message: ", msg.data);
+        receiveMotion(msg.data);
+      };
     };
+    return () => webSocket.current.close();
   }, []);
   return (
     <div className="row">
