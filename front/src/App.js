@@ -8,6 +8,7 @@ import Game from "./components/Game";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
+import Top10 from "./components/Top10";
 
 // Context
 export const SessionContext = React.createContext();
@@ -52,6 +53,7 @@ function App() {
         <Navigation />
         <div className="container p-4">
           <Route path="/" exact component={Home} />
+          <Route path="/top10" component={Top10} />
           <Route path="/game">
             <Game />
           </Route>

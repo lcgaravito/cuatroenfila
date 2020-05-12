@@ -29,10 +29,19 @@ export default function Navigation() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/game">
-                Play
+              <Link className="nav-link" to="/top10">
+                Top 10
               </Link>
             </li>
+            {userContext.username ? (
+              <li className="nav-item">
+                <Link className="nav-link" to="/game">
+                  Play
+                </Link>
+              </li>
+            ) : (
+              ""
+            )}
             <li className="nav-item">
               {userContext.username ? (
                 <Link className="nav-link" to="/profile">
