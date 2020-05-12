@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+/* Falta comentar el codigo esta muy bien estructurado pero alguien que no sepa del proyecto puede que no entienda que hace cada uno de los metodos presentado en el file*/
 const MongoClient = require("mongodb").MongoClient;
 const ObjectID = require("mongodb").ObjectID;
 const dbTaskFourInLine = "fourInLineDB";
