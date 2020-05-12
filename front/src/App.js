@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import "./App.css";
 
@@ -7,6 +7,7 @@ import Navigation from "./components/Navigation";
 import Game from "./components/Game";
 import Home from "./components/Home";
 import Login from "./components/Login";
+import Profile from "./components/Profile";
 
 // Context
 export const SessionContext = React.createContext();
@@ -17,6 +18,20 @@ function App() {
   const [victories, setVictories] = useState(null);
   const [defeats, setDefeats] = useState(null);
   const [tie, setTie] = useState(null);
+
+  useEffect(() => {
+    fetch([`/getUser`])
+      .then((response) => response.json())
+      .then((json) => {
+        if (json) {
+          set_id(json._id);
+          setUsername(json.username);
+          setVictories(json.victories);
+          setDefeats(json.defeats);
+          setTie(json.tie);
+        }
+      });
+  }, []);
 
   return (
     <Router>
@@ -40,7 +55,7 @@ function App() {
           <Route path="/game">
             <Game />
           </Route>
-          <Route path="/login" component={Login} />
+          <Route path="/login">{username ? <Profile /> : <Login />}</Route>
         </div>
       </SessionContext.Provider>
     </Router>

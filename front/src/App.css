@@ -6,6 +6,17 @@
     border-color: #2ba84a;
 }
 
+.btn-outline-danger {
+    color: #f97068;
+    border-color: #f97068;
+}
+
+.btn-outline-danger:hover {
+    background-color: #f97068;
+    border-color: #f97068;
+    color: white;
+}
+
 .btn-link,
 .btn-link:hover {
     color: #38aecc;
