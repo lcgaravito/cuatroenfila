@@ -1,3 +1,4 @@
+//En general en las clases falta remover codigo basura , y docuentar por encima que se hace en cada uno de los sources
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { SessionContext } from "../App";
