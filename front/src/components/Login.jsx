@@ -4,7 +4,7 @@ import { SessionContext } from "../App";
 
 export default function Login(props) {
   const userContext = useContext(SessionContext);
-  let history = useHistory();
+  const history = useHistory();
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

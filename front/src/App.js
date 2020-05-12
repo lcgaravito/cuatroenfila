@@ -13,53 +13,70 @@ import Profile from "./components/Profile";
 export const SessionContext = React.createContext();
 
 function App() {
-  const [_id, set_id] = useState(null);
-  const [username, setUsername] = useState(null);
-  const [victories, setVictories] = useState(null);
-  const [defeats, setDefeats] = useState(null);
-  const [tie, setTie] = useState(null);
+    const [_id, set_id] = useState(null);
+    const [username, setUsername] = useState(null);
+    const [victories, setVictories] = useState(null);
+    const [defeats, setDefeats] = useState(null);
+    const [tie, setTie] = useState(null);
 
-  useEffect(() => {
-    fetch([`/getUser`])
-      .then((response) => response.json())
-      .then((json) => {
-        if (json) {
-          set_id(json._id);
-          setUsername(json.username);
-          setVictories(json.victories);
-          setDefeats(json.defeats);
-          setTie(json.tie);
-        }
-      });
-  }, []);
+    useEffect(() => {
+        fetch([`/getUser`])
+            .then((response) => response.json())
+            .then((json) => {
+                if (json) {
+                    set_id(json._id);
+                    setUsername(json.username);
+                    setVictories(json.victories);
+                    setDefeats(json.defeats);
+                    setTie(json.tie);
+                }
+            });
+    }, []);
 
-  return (
-    <Router>
-      <SessionContext.Provider
-        value={{
-          _id,
-          username,
-          victories,
-          defeats,
-          tie,
-          set_id,
-          setUsername,
-          setVictories,
-          setDefeats,
-          setTie,
-        }}
-      >
-        <Navigation />
-        <div className="container p-4">
-          <Route path="/" exact component={Home} />
-          <Route path="/game">
-            <Game />
-          </Route>
-          <Route path="/login">{username ? <Profile /> : <Login />}</Route>
-        </div>
-      </SessionContext.Provider>
-    </Router>
-  );
+    return ( <
+        Router >
+        <
+        SessionContext.Provider value = {
+            {
+                _id,
+                username,
+                victories,
+                defeats,
+                tie,
+                set_id,
+                setUsername,
+                setVictories,
+                setDefeats,
+                setTie,
+            }
+        } >
+        <
+        Navigation / >
+        <
+        div className = "container p-4" >
+        <
+        Route path = "/"
+        exact component = { Home }
+        /> <
+        Route path = "/game" >
+        <
+        Game / >
+        <
+        /Route> {
+            username ? ( <
+                Route path = "/profile"
+                component = { Profile }
+                />
+            ) : ( <
+                Route path = "/login"
+                component = { Login }
+                />
+            )
+        } <
+        /div> <
+        /SessionContext.Provider> <
+        /Router>
+    );
 }
 
 export default App;

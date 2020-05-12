@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { SessionContext } from "../App";
 
 export default function Profile() {
   const userContext = useContext(SessionContext);
+  const history = useHistory();
   const logOut = () => {
     fetch([`/logout`])
       .then((response) => response.json())
@@ -13,6 +15,7 @@ export default function Profile() {
           userContext.setVictories(null);
           userContext.setDefeats(null);
           userContext.setTie(null);
+          history.push("/");
         }
       });
   };
@@ -21,6 +24,8 @@ export default function Profile() {
       <h2>Your Profile</h2>
       <div className="mt-4">
         <h3>{userContext.username}</h3>
+        <img src="profile-green250.png" alt="Token green" width="200" />
+        <hr className="my-4"></hr>
         <div className="row">
           <div className="col">
             <img src="token-green250.png" alt="Token green" width="80" />
@@ -38,6 +43,7 @@ export default function Profile() {
             <p style={{ color: "#f97068" }}>draws</p>
           </div>
         </div>
+        <hr className="my-4"></hr>
         <button
           type="button"
           onClick={() => logOut()}

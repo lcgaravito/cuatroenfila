@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Game.css";
 
 const grid = [
@@ -25,6 +25,37 @@ export default function Game() {
     }
   };
 
+  /*
+  const receiveMotion = (j) => {
+    for (let index = board.length - 1; index >= 0; index--) {
+      const element = board[index][j];
+      if (element === 0) {
+        const boardCopy = [...board];
+        boardCopy[index][j] = 2;
+        setBoard(boardCopy);
+        return;
+      }
+    }
+  };*/
+
+  const setupWS = () => {
+    const wss = new WebSocket("ws://localhost:3001");
+    wss.onopen = () => {
+      console.log("WS client connected");
+
+      wss.onmessage = (msg) => {
+        console.log("WS got message: ", msg.data);
+        // receiveMotion(msg.data);
+      };
+    };
+  };
+
+  useEffect(() => {
+    setupWS();
+    return () => {
+      console.log("Bye!");
+    };
+  }, []);
   return (
     <div className="row">
       <div className="col-md-8">

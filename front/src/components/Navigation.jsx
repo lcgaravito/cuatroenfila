@@ -35,7 +35,7 @@ export default function Navigation() {
             </li>
             <li className="nav-item">
               {userContext.username ? (
-                <Link className="nav-link" to="/login">
+                <Link className="nav-link" to="/profile">
                   Profile
                 </Link>
               ) : (
