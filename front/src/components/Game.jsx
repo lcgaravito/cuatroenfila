@@ -40,7 +40,7 @@ export default function Game() {
   };
 
   useEffect(() => {
-    webSocket.current = new WebSocket("ws://cuatroenfila.herokuapp.com/");
+    webSocket.current = new WebSocket("wss://cuatroenfila.herokuapp.com/");
     webSocket.current.onopen = () => {
       console.log("WS client connected");
       webSocket.current.onmessage = (msg) => {
