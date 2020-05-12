@@ -88,6 +88,9 @@ function MongoUtils() {
                 .finally(() => client.close());
         });
 
+    //Aquí faltaría el watch() que esté escuchando todo el tiempo a la base de datos por cambios, y cuando detecte un cambio
+    //en el cursor, avise a todos de ese cambio (por los sockets que ya creó
+    
     return mu;
 }
 
