@@ -1,3 +1,4 @@
+/* Falta documentacion para entender que es lo que se esta realizando en esta seccion del codigo*/
 const WebSocket = require("ws");
 
 function WSUtils() {
