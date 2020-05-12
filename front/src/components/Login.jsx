@@ -1,22 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
+import { SessionContext } from "../App";
 
-export default function Login() {
+export default function Login(props) {
+  const userContext = useContext(SessionContext);
+  let history = useHistory();
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordsNotEquals, setPasswordsNotEquals] = useState(false);
+  const [wrongCredentials, setWrongCredentials] = useState(false);
+  const [userCreated, setUserCreated] = useState(false);
   const [logIn, setLogIn] = useState(true);
 
-  const sendForm = (ev) => {
-    ev.preventDefault();
-    if (!logIn && password !== confirmPassword) {
-      setPasswordsNotEquals(true);
-      return;
-    }
-    fetch("https://jsonplaceholder.typicode.com/posts", {
+  const fetchRequest = (url, callback) => {
+    fetch([`/${url}`], {
       method: "POST",
       body: JSON.stringify({
-        user,
+        username: user,
         password,
       }),
       headers: {
@@ -24,18 +25,48 @@ export default function Login() {
       },
     })
       .then((response) => response.json())
-      .then((json) => {
-        setUser("");
-        setPassword("");
-        setConfirmPassword("");
-        console.log(json);
+      .then((json) => callback(json));
+  };
+
+  const sendForm = (ev) => {
+    ev.preventDefault();
+    if (!logIn && password !== confirmPassword) {
+      setPasswordsNotEquals(true);
+      return;
+    }
+    if (logIn) {
+      fetchRequest("login", (json) => {
+        if (json.authenticated) {
+          userContext.set_id(json.user._id);
+          userContext.setUsername(json.user.username);
+          userContext.setVictories(json.user.victories);
+          userContext.setDefeats(json.user.defeats);
+          userContext.setTie(json.user.tie);
+          history.push("/");
+        } else {
+          setWrongCredentials(true);
+        }
       });
+    } else {
+      fetchRequest("signup", (json) => {
+        if (json.message) {
+          setUserCreated(true);
+          setConfirmPassword("");
+          setLogIn(true);
+        }
+      });
+    }
   };
 
   return (
     <div className="login col-md-6 offset-md-3">
       <h2 className="text-center">{logIn ? "Log in" : "Create Account"}</h2>
       <form onSubmit={(ev) => sendForm(ev)}>
+        {userCreated && (
+          <div className="alert alert-success" role="alert">
+            Your account has been created. Please Login.
+          </div>
+        )}
         <div className="form-group">
           <label htmlFor="user">User</label>
           <input
@@ -59,6 +90,11 @@ export default function Login() {
             onChange={(ev) => setPassword(ev.target.value)}
             required="required"
           />
+          {wrongCredentials && (
+            <p className="text-center mt-2 text-wrong">
+              Incorrect username or password
+            </p>
+          )}
         </div>
         {!logIn && (
           <div className="form-group">

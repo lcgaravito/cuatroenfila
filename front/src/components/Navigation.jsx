@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { SessionContext } from "../App";
 
 export default function Navigation() {
+  const userContext = useContext(SessionContext);
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -32,9 +34,15 @@ export default function Navigation() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/login">
-                Login
-              </Link>
+              {userContext.username ? (
+                <Link className="nav-link" to="/login">
+                  Profile
+                </Link>
+              ) : (
+                <Link className="nav-link" to="/login">
+                  Login
+                </Link>
+              )}
             </li>
           </ul>
         </div>
