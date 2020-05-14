@@ -2,7 +2,7 @@
 Web application that allows you to play the famous game of "Connect Four" in pairs and online.
 <hr>
 
-(https://raw.githubusercontent.com/lcgaravito/cuatroenfila/master/screenshot.png)
+[Menu](https://raw.githubusercontent.com/lcgaravito/cuatroenfila/master/screenshot.png)
 
 ## Running the App
 The application is divided into two parts:
