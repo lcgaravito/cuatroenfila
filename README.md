@@ -39,7 +39,7 @@ You also need to run a mongodb database. If you want a cloud database you have t
 ## API used
 
 <a href="http://kevinalbs.com/connect4/back-end/info.html" target="_blank">Connect Four API</a>
-An AI player for Connect Four using the minimax algorithm made by Kevin Albertson, software enguneer from Hamilton, NJ.
+An AI player for Connect Four using the minimax algorithm made by Kevin Albertson, software engineer from Hamilton, NJ.
 
 <hr>
 
