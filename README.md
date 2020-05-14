@@ -14,12 +14,11 @@ The application is divided into two parts:
 Backend: Main folder
 
 ```
-$ git clone https://github.com/lcgaravito/cuatroenfila.git
 $ yarn install
 $ yarn start
 ```
 
-Frontend: Create a new terminal in the same folder
+Frontend: 
 
 ```
 $ cd front
@@ -27,13 +26,20 @@ $ yarn install
 $ yarn start
 ```
 
-You also need to run a mongodb database. If you want a cloud database you have to add the environment variable ```MONGODB_URI=mongodb://link-to-database.../``` in the ```.env ``` file.
+You also need to run a mongodb database. If you want a cloud database you have to add the environment variable ```MONGODB_URI=mongodb://link-to-database.../``` in the ```.env ``` file or in the heroku's settings.
 
 <hr>
 
 ## Link to the deployed application
 
 <a href="https://cuatroenfila.herokuapp.com/" target="_blank">Cuantro en fila App</a>
+
+<hr>
+
+## API used
+
+<a href="http://kevinalbs.com/connect4/back-end/info.html" target="_blank">Connect Four API</a>
+An AI player for Connect Four using the minimax algorithm made by Kevin Albertson, software enguneer from Hamilton, NJ.
 
 <hr>
 
