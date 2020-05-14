@@ -4,7 +4,7 @@ import "./App.css";
 
 // Components
 import Navigation from "./components/Navigation";
-import Game from "./components/Game";
+import CreateGame from "./components/CreateGame";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
@@ -54,9 +54,7 @@ function App() {
         <div className="container p-4">
           <Route path="/" exact component={Home} />
           <Route path="/top10" component={Top10} />
-          <Route path="/game">
-            <Game />
-          </Route>
+          {username && <Route path="/game" component={CreateGame} />}
           {username ? (
             <Route path="/profile" component={Profile} />
           ) : (

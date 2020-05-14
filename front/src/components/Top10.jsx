@@ -14,7 +14,6 @@ export default function Top10() {
         setUsers(newUsers);
       });
   }, []);
-  console.log(users);
   return (
     <div className="container text-center">
       <h2>Top 10 players</h2>

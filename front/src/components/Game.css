@@ -13,6 +13,10 @@
     padding: 20px;
 }
 
+#status {
+    color: #f97068;
+}
+
 #you {
     color: #2ba84a;
 }

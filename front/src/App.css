@@ -17,6 +17,17 @@
     color: white;
 }
 
+.btn-outline-secondary {
+    color: #38aecc;
+    border-color: #38aecc;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #38aecc;
+    border-color: #38aecc;
+    color: white;
+}
+
 .btn-link,
 .btn-link:hover {
     color: #38aecc;
