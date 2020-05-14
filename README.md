@@ -4,6 +4,10 @@ Web application that allows you to play the famous game of "Connect Four" in pai
 
 ![Menu](https://raw.githubusercontent.com/lcgaravito/cuatroenfila/master/screenshot.png)
 
+![Top10](https://raw.githubusercontent.com/lcgaravito/cuatroenfila/master/screenshot2.png)
+
+![GameGrid](https://raw.githubusercontent.com/lcgaravito/cuatroenfila/master/screenshot3.png)
+
 ## Running the App
 The application is divided into two parts:
 
