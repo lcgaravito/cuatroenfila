@@ -11,17 +11,17 @@ Web application that allows you to play the famous game of "Connect Four" in pai
 ## Running the App
 The application is divided into two parts:
 
-Backend:
+Backend: Main folder
 
 ```
-$ npm install
-$ npm start
+$ yarn install
+$ yarn start
 ```
 
-Frontend
+Frontend: 
 
 ```
-$ cd client
+$ cd front
 $ yarn install
 $ yarn start
 ```
@@ -30,17 +30,9 @@ You also need to run a mongodb database. If you want a cloud database you have t
 
 <hr>
 
-## Image source
-
-Poon Hill, Ghode Pani, Nepal
-
-Photo by Daniel Leone on Unsplash
-
-<hr>
-
 ## Link to the deployed application
 
-<a href="https://task-mate-webapp.herokuapp.com/" target="_blank">Task Mate App</a>
+<a href="https://cuatroenfila.herokuapp.com/" target="_blank">Cuantro en fila App</a>
 
 <hr>
 
