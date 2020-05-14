@@ -1,5 +1,5 @@
 # Cuatro en fila
-Web application that allows you to play the famous game of "Connect Four" in pairs and online.
+Web application "Cuatro en fila", it is a MERN application (MongoDB, Express, React, NodeJS) that allows you to play the famous game of "Connect Four" in pairs and online.
 <hr>
 
 ![Menu](https://raw.githubusercontent.com/lcgaravito/cuatroenfila/master/screenshot.png)
@@ -9,6 +9,18 @@ Web application that allows you to play the famous game of "Connect Four" in pai
 ![GameGrid](https://raw.githubusercontent.com/lcgaravito/cuatroenfila/master/screenshot3.png)
 
 ## Running the App
+
+Prerequisites For running the app:
+
+First, you need to install Node.js, to see more information <a href="https://www.mongodb.com/download-center/community">Click here</a>.
+
+Second, its necesary the instalation of yarn <a href="https://classic.yarnpkg.com/en/docs/install/#windows-stable">Click here</a> for information.
+
+```
+$ yarn add mongodb
+$ mongod
+```
+
 The application is divided into two parts:
 
 Backend: Main folder
