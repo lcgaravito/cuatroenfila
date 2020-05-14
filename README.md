@@ -43,8 +43,8 @@ An AI player for Connect Four using the minimax algorithm made by Kevin Albertso
 
 <hr>
 
-## Author
-Luis Carlos Garavito and Kelvin Estupiñan
+## Authors
+Luis Carlos Garavito Romero, Kelvin Santiago Estupiñan Garavito.
 
 <hr>
 
