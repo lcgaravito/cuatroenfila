@@ -34,6 +34,7 @@ export default function CreateGame() {
 
   const createGame = () => {
     webSocket.current = new WebSocket("wss://cuatroenfila.herokuapp.com/");
+    // webSocket.current = new WebSocket("ws://localhost:3001/");
     webSocket.current.onopen = () => {
       sendBySocket(framework.create, "");
       webSocket.current.onmessage = (event) => {
@@ -69,6 +70,7 @@ export default function CreateGame() {
 
   useEffect(() => {
     webSocketGames.current = new WebSocket("wss://cuatroenfila.herokuapp.com/");
+    // webSocketGames.current = new WebSocket("ws://localhost:3001/");
     setUpWSGames();
     return () => {
       webSocketGames.current.close();

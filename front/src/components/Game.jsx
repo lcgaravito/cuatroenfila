@@ -62,10 +62,17 @@ export default function Game({ gameID }) {
     board.map((row) => {
       row.map((box) => (board_data += box));
     });
-
-    fetch(
-      `http://kevinalbs.com/connect4/back-end/index.php/hasWon?board_data=${board_data}&i=${i}&j=${j}`
-    )
+    fetch([`/api/hasWon`], {
+      method: "POST",
+      body: JSON.stringify({
+        board_data,
+        i,
+        j,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
       .then(function (response) {
         return response.json();
       })

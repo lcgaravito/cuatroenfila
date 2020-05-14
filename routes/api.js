@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var mu = require("../db/MongoUtils");
+const axios = require("axios");
 
 /* GET - API of the App. */
 router.get("/", function(req, res) {
@@ -19,6 +20,20 @@ router.put("/update", function(req, res) {
     mu.updateUser(req.user._id, req.body).then(
         res.json({ error: "Update succesfully" })
     );
+});
+
+router.post("/hasWon", function(req, res) {
+    axios
+        .get(
+            `http://kevinalbs.com/connect4/back-end/index.php/hasWon?board_data=${req.body.board_data}&i=${req.body.i}&j=${req.body.j}`
+        )
+        .then(function(response) {
+            res.send(response.data);
+        })
+        .catch(function(error) {
+            // handle error
+            console.log(error);
+        });
 });
 
 module.exports = router;
