@@ -14,11 +14,12 @@ The application is divided into two parts:
 Backend: Main folder
 
 ```
+$ git clone https://github.com/lcgaravito/cuatroenfila.git
 $ yarn install
 $ yarn start
 ```
 
-Frontend: 
+Frontend: Create a new terminal in the same folder
 
 ```
 $ cd front
