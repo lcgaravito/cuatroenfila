@@ -1,4 +1,4 @@
-# cuatroenfila
+# Cuatro en fila
 Web application that allows you to play the famous game of "Connect Four" in pairs and online.
 <hr>
 
