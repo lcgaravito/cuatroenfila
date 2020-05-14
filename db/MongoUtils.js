@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 const MongoClient = require("mongodb").MongoClient;
 const ObjectID = require("mongodb").ObjectID;
-const dbTaskFourInLine = "fourInLineDB";
-const playerCollection = "players";
+const dbTaskFourInLine = "ConnectFour";
+const playerCollection = "player";
 
 function MongoUtils() {
     const mu = {};
