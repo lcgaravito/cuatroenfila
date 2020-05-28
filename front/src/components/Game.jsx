@@ -11,7 +11,7 @@ const framework = {
   winner: "winner",
 };
 
-const grid = [
+var grid = [
   [0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0],
@@ -25,8 +25,10 @@ export default function Game({ gameID }) {
   const userContext = useContext(SessionContext);
   const [board, setBoard] = useState(grid);
   const [status, setStatus] = useState("waiting turn");
+  const [oponent, setOponent] = useState("waiting oponent");
   const [myTurn, setMyTurn] = useState(false);
   const webSocket = useRef(null);
+  const webSocketUser = useRef(null);
 
   const sendMotion = (i, j) => {
     for (let index = board.length - 1; index >= 0; index--) {
@@ -35,12 +37,12 @@ export default function Game({ gameID }) {
         const boardCopy = [...board];
         boardCopy[index][j] = 1;
         setBoard(boardCopy);
-        sendBySocket(framework.move, j);
+        sendBySocket(framework.move, j, userContext.username);
         hasWon(index, j, (response) => {
           if (response) {
             setMyTurn(false);
             setStatus("Congratulations, You win! 🎉");
-            sendBySocket(framework.winner, "");
+            sendBySocket(framework.winner, "", userContext.username);
             recordResult(1, 0, 0);
           } else {
             if (myTurn) {
@@ -85,6 +87,7 @@ export default function Game({ gameID }) {
     fetch([`/api/update`], {
       method: "PUT",
       body: JSON.stringify({
+        _id: userContext.id,
         username: userContext.username,
         victories: userContext.victories + win,
         defeats: userContext.defeats + lose,
@@ -94,12 +97,17 @@ export default function Game({ gameID }) {
         "Content-type": "application/json; charset=UTF-8",
       },
     });
+
+    userContext.victories = userContext.victories + win;
+    userContext.defeats = userContext.defeats + lose;
+    userContext.tie = userContext.tie + tie;
   };
 
-  const sendBySocket = (type, data) => {
+  const sendBySocket = (type, data, user) => {
     let msg = {
       type,
       data,
+      user,
     };
     webSocket.current.send(JSON.stringify(msg));
   };
@@ -121,6 +129,7 @@ export default function Game({ gameID }) {
       sendBySocket(framework.startgame, gameID);
       webSocket.current.onmessage = (event) => {
         let msg = JSON.parse(event.data);
+        setOponent(msg.user);
         switch (msg.type) {
           case framework.move:
             receiveMotion(msg.data);
@@ -152,8 +161,8 @@ export default function Game({ gameID }) {
   };
 
   useEffect(() => {
-    webSocket.current = new WebSocket("wss://cuatroenfila.herokuapp.com/");
-    // webSocket.current = new WebSocket("ws://localhost:3001/");
+    //webSocket.current = new WebSocket("wss://cuatroenfila.herokuapp.com/");
+    webSocket.current = new WebSocket("ws://localhost:3001/");
     setUpWS();
     return () => {
       webSocket.current.close();
@@ -166,6 +175,7 @@ export default function Game({ gameID }) {
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0],
       ];
+      grid = gridEmpty;
       setBoard(gridEmpty);
     };
     // eslint-disable-next-line
@@ -222,6 +232,7 @@ export default function Game({ gameID }) {
       </div>
       <div className="col-md-4 game-info">
         <h2 className="text-center">Game ID: #{gameID}</h2>
+        <h6 id="oponent">Oponent: {oponent}</h6>
         <h6 id="status">Status: {status}</h6>
         <hr className="my-4"></hr>
         <h5 id="you">You</h5>
