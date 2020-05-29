@@ -11,6 +11,8 @@ const framework = {
   winner: "winner",
 };
 
+//Sería bueno tener una carpeta donde estén los css, para así tener más organizado el repositorio
+
 var grid = [
   [0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0],
