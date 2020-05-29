@@ -12,6 +12,8 @@ const framework = {
   turn: "turn",
   winner: "winner",
   username: "username",
+  privateexists: "privateexists",
+  errorid: "errorid",
 };
 
 var grid = [
@@ -24,7 +26,7 @@ var grid = [
   [0, 0, 0, 0, 0, 0, 0],
 ];
 
-export default function Game({ gameID }) {
+export default function Game({ gameID, privateGame = false }) {
   const userContext = useContext(SessionContext);
   const [board, setBoard] = useState(grid);
   const [status, setStatus] = useState("waiting turn");
@@ -127,7 +129,7 @@ export default function Game({ gameID }) {
 
   const setUpWS = () => {
     webSocket.current.onopen = () => {
-      sendBySocket(framework.startgame, gameID);
+      sendBySocket(framework.startgame, { privateGame, id: gameID });
       webSocket.current.onmessage = (event) => {
         let msg = JSON.parse(event.data);
         switch (msg.type) {
@@ -139,6 +141,9 @@ export default function Game({ gameID }) {
               setStatus("it's your opponent's turn");
             }
             setMyTurn(!myTurn);
+            break;
+          case framework.errorid:
+            setStatus(msg.data);
             break;
           case framework.turn:
             setMyTurn(msg.data);
@@ -165,8 +170,8 @@ export default function Game({ gameID }) {
   };
 
   useEffect(() => {
-    //webSocket.current = new WebSocket("wss://cuatroenfila.herokuapp.com/");
-    webSocket.current = new WebSocket("ws://localhost:3001/");
+    webSocket.current = new WebSocket("wss://cuatroenfila.herokuapp.com/");
+    // webSocket.current = new WebSocket("ws://localhost:3001/");
     setUpWS();
     return () => {
       webSocket.current.close();
@@ -235,7 +240,9 @@ export default function Game({ gameID }) {
         </div>
       </div>
       <div className="col-md-4 game-info">
-        <h2 className="text-center">Game ID: #{gameID}</h2>
+        <h2 className="text-center">
+          {privateGame && "Private "}Game ID: #{gameID}
+        </h2>
         <h6 id="oponent">Oponent: {oponent}</h6>
         <h6 id="status">Status: {status}</h6>
         <hr className="my-4"></hr>

@@ -11,11 +11,15 @@ const framework = {
   turn: "turn",
   winner: "winner",
   username: "username",
+  privateexists: "privateexists",
+  errorid: "errorid",
 };
 
 export default function CreateGame() {
   const [games, setGames] = useState([]);
   const [gameID, setGameID] = useState(null);
+  const [privateGameID, setPrivateGameID] = useState("");
+  const [privateGame, setPrivateGame] = useState(false);
   const webSocket = useRef(null);
   const webSocketGames = useRef(null);
 
@@ -36,15 +40,20 @@ export default function CreateGame() {
   };
 
   const createGame = (privateGame = false) => {
-    //webSocket.current = new WebSocket("wss://cuatroenfila.herokuapp.com/");
-    webSocket.current = new WebSocket("ws://localhost:3001/");
+    webSocket.current = new WebSocket("wss://cuatroenfila.herokuapp.com/");
+    // webSocket.current = new WebSocket("ws://localhost:3001/");
     webSocket.current.onopen = () => {
-      sendBySocket(framework.create, "");
+      sendBySocket(framework.create, { privateGame });
       webSocket.current.onmessage = (event) => {
         let msg = JSON.parse(event.data);
         switch (msg.type) {
           case framework.create:
-            setGameID(msg.data);
+            if (msg.data.privateGame) {
+              setPrivateGameID(msg.data.id);
+              setPrivateGame(true);
+            } else {
+              setGameID(msg.data.id);
+            }
             webSocket.current.close();
             break;
           default:
@@ -72,8 +81,8 @@ export default function CreateGame() {
   };
 
   useEffect(() => {
-    //webSocketGames.current = new WebSocket("wss://cuatroenfila.herokuapp.com/");
-    webSocketGames.current = new WebSocket("ws://localhost:3001/");
+    webSocketGames.current = new WebSocket("wss://cuatroenfila.herokuapp.com/");
+    // webSocketGames.current = new WebSocket("ws://localhost:3001/");
     setUpWSGames();
     return () => {
       webSocketGames.current.close();
@@ -85,11 +94,13 @@ export default function CreateGame() {
     <div>
       {gameID ? (
         <Game gameID={gameID} />
+      ) : privateGame ? (
+        <Game gameID={privateGameID} privateGame={true} />
       ) : (
         <div className="text-center">
           <button
             className="btn btn-primary btn-lg"
-            onClick={() => createGame()}
+            onClick={() => createGame(false)}
           >
             Create game
           </button>
@@ -103,9 +114,31 @@ export default function CreateGame() {
             </span>
             Create private game
           </button>
+          <p>{privateGameID}</p>
+          <div className="input-group mt-2 col-md-6 offset-md-3">
+            <input
+              type="number"
+              max="999999"
+              className="form-control"
+              placeholder="Private Game ID"
+              aria-label="Private Game ID"
+              value={privateGameID}
+              onChange={(ev) => setPrivateGameID(ev.target.value)}
+            />
+            <div className="input-group-append">
+              <button
+                className="btn btn-secondary"
+                type="button"
+                id="button-addon2"
+                onClick={() => setPrivateGame(true)}
+              >
+                Enter private game.
+              </button>
+            </div>
+          </div>
           <br />
           <br />
-          <h2>Available games:</h2>
+          {games.length > 0 && <h2>Available games:</h2>}
           <br />
           {games.map((item, index) => (
             <button

@@ -13,6 +13,8 @@ function WSUtils() {
         turn: "turn",
         winner: "winner",
         username: "username",
+        privateexists: "privateexists",
+        errorid: "errorid",
     };
 
     wsu.generateID = (count, array) => {
@@ -36,6 +38,7 @@ function WSUtils() {
         const wss = new WebSocket.Server({ server });
         const gamesSockets = [];
         const gamesQueue = [];
+        const privateGamesQueue = [];
         const gamesStartedQueue = [];
 
         wss.on("connection", (ws) => {
@@ -44,22 +47,34 @@ function WSUtils() {
                 let msg = JSON.parse(event.data);
                 switch (msg.type) {
                     case framework.create:
-                        let id = wsu.generateID(6, gamesQueue);
+                        let id = msg.data.privateGame ?
+                            wsu.generateID(6, privateGamesQueue) :
+                            wsu.generateID(6, gamesQueue);
                         ws.send(
                             JSON.stringify({
                                 type: framework.create,
-                                data: id,
+                                data: { privateGame: msg.data.privateGame, id },
                             })
                         );
-                        gamesQueue.push(id);
-                        gamesSockets.map((socket) => {
-                            socket.send(
-                                JSON.stringify({
-                                    type: framework.games,
-                                    data: gamesQueue,
-                                })
-                            );
-                        });
+                        console.log(
+                            JSON.stringify({
+                                type: framework.create,
+                                data: { privateGame: msg.data.privateGame, id },
+                            })
+                        );
+                        if (msg.data.privateGame) {
+                            privateGamesQueue.push(id);
+                        } else {
+                            gamesQueue.push(id);
+                            gamesSockets.map((socket) => {
+                                socket.send(
+                                    JSON.stringify({
+                                        type: framework.games,
+                                        data: gamesQueue,
+                                    })
+                                );
+                            });
+                        }
                         break;
                     case framework.games:
                         ws.send(
@@ -71,24 +86,31 @@ function WSUtils() {
                         gamesSockets.push(ws);
                         break;
                     case framework.startgame:
-                        const idGame = msg.data;
+                        const idGame = msg.data.id;
                         const found = gamesStartedQueue.find((game) => game.id === idGame);
                         if (found === undefined) {
                             gamesStartedQueue.push({ id: idGame, ws });
                             gamesStartedQueue.map((game) => console.log(game.id));
                         } else {
-                            var index = gamesQueue.indexOf(found.id);
-                            if (index > -1) {
-                                gamesQueue.splice(index, 1);
+                            if (msg.data.privateGame) {
+                                var index = privateGamesQueue.indexOf(found.id);
+                                if (index > -1) {
+                                    privateGamesQueue.splice(index, 1);
+                                }
+                            } else {
+                                var index = gamesQueue.indexOf(found.id);
+                                if (index > -1) {
+                                    gamesQueue.splice(index, 1);
+                                }
+                                gamesSockets.map((socket) => {
+                                    socket.send(
+                                        JSON.stringify({
+                                            type: framework.games,
+                                            data: gamesQueue,
+                                        })
+                                    );
+                                });
                             }
-                            gamesSockets.map((socket) => {
-                                socket.send(
-                                    JSON.stringify({
-                                        type: framework.games,
-                                        data: gamesQueue,
-                                    })
-                                );
-                            });
                             wsu.gameProtocol(found.ws, ws);
                             index = gamesStartedQueue.indexOf(found);
                             if (index > -1) {
