@@ -114,7 +114,6 @@ export default function CreateGame() {
             </span>
             Create private game
           </button>
-          <p>{privateGameID}</p>
           <div className="input-group mt-2 col-md-6 offset-md-3">
             <input
               type="number"
