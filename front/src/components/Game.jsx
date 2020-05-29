@@ -11,6 +11,8 @@ const framework = {
   winner: "winner",
 };
 
+//Seria bueno no utilizar var
+
 var grid = [
   [0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0],
