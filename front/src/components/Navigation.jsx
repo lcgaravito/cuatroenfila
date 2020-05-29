@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { SessionContext } from "../App";
 
 export default function Navigation() {
+  //Por temas de accesibilidad no es bueno utilizar aria
   const userContext = useContext(SessionContext);
   return (
     <div>
