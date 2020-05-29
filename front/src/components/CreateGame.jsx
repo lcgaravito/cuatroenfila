@@ -3,11 +3,14 @@ import Game from "./Game";
 
 const framework = {
   create: "create",
+  createprivate: "createprivate",
   games: "games",
   startgame: "startgame",
+  startprivategame: "startprivategame",
   move: "move",
   turn: "turn",
   winner: "winner",
+  username: "username",
 };
 
 export default function CreateGame() {
@@ -32,7 +35,7 @@ export default function CreateGame() {
     webSocketGames.current.send(JSON.stringify(msg));
   };
 
-  const createGame = () => {
+  const createGame = (privateGame = false) => {
     //webSocket.current = new WebSocket("wss://cuatroenfila.herokuapp.com/");
     webSocket.current = new WebSocket("ws://localhost:3001/");
     webSocket.current.onopen = () => {
@@ -89,6 +92,16 @@ export default function CreateGame() {
             onClick={() => createGame()}
           >
             Create game
+          </button>
+          <br />
+          <button
+            className="btn btn-secondary btn-lg mt-2"
+            onClick={() => createGame(true)}
+          >
+            <span role="img" aria-label="silence-emoji">
+              🤫
+            </span>
+            Create private game
           </button>
           <br />
           <br />

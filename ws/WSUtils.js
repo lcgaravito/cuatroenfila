@@ -5,11 +5,14 @@ function WSUtils() {
 
     const framework = {
         create: "create",
+        createprivate: "createprivate",
         games: "games",
         startgame: "startgame",
+        startprivategame: "startprivategame",
         move: "move",
         turn: "turn",
         winner: "winner",
+        username: "username",
     };
 
     wsu.generateID = (count, array) => {
@@ -120,6 +123,10 @@ function WSUtils() {
                 case framework.winner:
                     ws2.send(event.data);
                     break;
+                case framework.username:
+                    ws2.send(event.data);
+                    console.log(event.data);
+                    break;
                 default:
                     console.log(msg.data);
                     break;
@@ -133,6 +140,10 @@ function WSUtils() {
                     break;
                 case framework.winner:
                     ws1.send(event.data);
+                    break;
+                case framework.username:
+                    ws1.send(event.data);
+                    console.log(event.data);
                     break;
                 default:
                     console.log(msg.data);

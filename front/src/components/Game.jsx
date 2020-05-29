@@ -4,11 +4,14 @@ import { SessionContext } from "../App";
 
 const framework = {
   create: "create",
+  createprivate: "createprivate",
   games: "games",
   startgame: "startgame",
+  startprivategame: "startprivategame",
   move: "move",
   turn: "turn",
   winner: "winner",
+  username: "username",
 };
 
 var grid = [
@@ -25,10 +28,9 @@ export default function Game({ gameID }) {
   const userContext = useContext(SessionContext);
   const [board, setBoard] = useState(grid);
   const [status, setStatus] = useState("waiting turn");
-  const [oponent, setOponent] = useState("waiting oponent");
+  const [oponent, setOponent] = useState("waiting oponent...");
   const [myTurn, setMyTurn] = useState(false);
   const webSocket = useRef(null);
-  const webSocketUser = useRef(null);
 
   const sendMotion = (i, j) => {
     for (let index = board.length - 1; index >= 0; index--) {
@@ -37,12 +39,12 @@ export default function Game({ gameID }) {
         const boardCopy = [...board];
         boardCopy[index][j] = 1;
         setBoard(boardCopy);
-        sendBySocket(framework.move, j, userContext.username);
+        sendBySocket(framework.move, j);
         hasWon(index, j, (response) => {
           if (response) {
             setMyTurn(false);
             setStatus("Congratulations, You win! 🎉");
-            sendBySocket(framework.winner, "", userContext.username);
+            sendBySocket(framework.winner, "");
             recordResult(1, 0, 0);
           } else {
             if (myTurn) {
@@ -103,11 +105,10 @@ export default function Game({ gameID }) {
     userContext.tie = userContext.tie + tie;
   };
 
-  const sendBySocket = (type, data, user) => {
+  const sendBySocket = (type, data) => {
     let msg = {
       type,
       data,
-      user,
     };
     webSocket.current.send(JSON.stringify(msg));
   };
@@ -129,7 +130,6 @@ export default function Game({ gameID }) {
       sendBySocket(framework.startgame, gameID);
       webSocket.current.onmessage = (event) => {
         let msg = JSON.parse(event.data);
-        setOponent(msg.user);
         switch (msg.type) {
           case framework.move:
             receiveMotion(msg.data);
@@ -147,11 +147,15 @@ export default function Game({ gameID }) {
             } else {
               setStatus("it's your opponent's turn");
             }
+            sendBySocket(framework.username, userContext.username);
             break;
           case framework.winner:
             setMyTurn(false);
             setStatus("You lost. 😕 Luck for the next.");
             recordResult(0, 1, 0);
+            break;
+          case framework.username:
+            setOponent(msg.data);
             break;
           default:
             break;
