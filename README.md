@@ -44,7 +44,7 @@ You also need to run a mongodb database. If you want a cloud database you have t
 
 ## Link to the deployed application
 
-<a href="https://cuatroenfila.herokuapp.com/" target="_blank">Cuantro en fila App</a>
+<a href="https://cuatroenfila.herokuapp.com/" target="_blank">Cuatro en fila App</a>
 
 <hr>
 
