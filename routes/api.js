@@ -22,6 +22,8 @@ router.put("/update", function(req, res) {
     );
 });
 
+
+//Es mas facil utilizar el modulo request para hacer calls a api, ya que estas request pueden variar y dañar alguna petición
 router.post("/hasWon", function(req, res) {
     axios
         .get(
