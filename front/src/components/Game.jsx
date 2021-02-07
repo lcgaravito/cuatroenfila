@@ -16,6 +16,8 @@ const framework = {
   errorid: "errorid",
 };
 
+//Seria bueno no utilizar var
+
 var grid = [
   [0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0],
