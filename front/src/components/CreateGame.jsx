@@ -90,6 +90,8 @@ export default function CreateGame() {
     // eslint-disable-next-line
   }, []);
 
+  
+  //Seria bueno que si no se tiene el gameID por alguna extraña razón hubiera un estado de que no se tiene. (al final del gameID ? )
   return (
     <div>
       {gameID ? (
