@@ -20,6 +20,9 @@ function App() {
   const [defeats, setDefeats] = useState(null);
   const [tie, setTie] = useState(null);
 
+  //Luis Ruiz: No se si estaba en otro lugar, pero no recuerdo haberlo visto. 
+  //Aquí debería ir la conexión del navegador con el back mediante el socket. 
+  
   useEffect(() => {
     fetch([`/getUser`])
       .then((response) => response.json())
